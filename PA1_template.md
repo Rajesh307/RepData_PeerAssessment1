@@ -72,11 +72,15 @@ head(steps_per_day)
 ######## 5 2012-10-06 15420
 ######## 6 2012-10-07 11015
 Now we make a histogram of the total number of steps taken per day, plotted with appropriate bin interval.
+
+```r
 ggplot(steps_per_day, aes(x = steps)) + 
        geom_histogram(fill = "green", binwidth = 1000) + 
         labs(title="Histogram of Steps Taken per Day", 
              x = "Number of Steps per Day", y = "Number of times in a day(Count)") + theme_bw() 
-plot of chunk histo
+```
+
+![plot of chunk histo](Folder/histo.png) 
 
 
 
@@ -98,11 +102,15 @@ steps_per_interval$interval <-
         as.integer(levels(steps_per_interval$interval)[steps_per_interval$interval])
 colnames(steps_per_interval) <- c("interval", "steps")
 We make the plot with the time series of the average number of steps taken (averaged across all days) versus the 5-minute intervals:
+
+```r
 ggplot(steps_per_interval, aes(x=interval, y=steps)) +   
         geom_line(color="orange", size=1) +  
         labs(title="Average Daily Activity Pattern", x="Interval", y="Number of steps") +  
         theme_bw()
-plot of chunk plot_time_series
+```
+
+![plot of chunk plot_time_series](Folder/plot_time_series.png) 
 
 Now, we find the 5-minute interval with the containing the maximum number of steps:
 max_interval <- steps_per_interval[which.max(  
@@ -158,11 +166,19 @@ fill_steps_per_day <- aggregate(steps ~ date, rdata_fill, sum)
 colnames(fill_steps_per_day) <- c("date","steps")
 
 ####plotting the histogram
+
+```r
+fill_steps_per_day <- aggregate(steps ~ date, rdata_fill, sum)
+colnames(fill_steps_per_day) <- c("date","steps")
+
+##plotting the histogram
 ggplot(fill_steps_per_day, aes(x = steps)) + 
        geom_histogram(fill = "blue", binwidth = 1000) + 
         labs(title="Histogram of Steps Taken per Day", 
              x = "Number of Steps per Day", y = "Number of times in a day(Count)") + theme_bw() 
-plot of chunk histo_fill
+```
+
+![plot of chunk histo_fill](Folder/histo_fill.png) 
 
 ####Calculate and report the mean and median total number of steps taken per day.
 
@@ -228,11 +244,14 @@ data_by_weekdays <- function(data) {
 data_weekdays <- data_by_weekdays(rdata_fill)
 Below you can see the panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends:
 
+```r
 ggplot(data_weekdays, aes(x=interval, y=steps)) + 
         geom_line(color="violet") + 
         facet_wrap(~ dayofweek, nrow=2, ncol=1) +
         labs(x="Interval", y="Number of steps") +
         theme_bw()
-plot of chunk plot_weekdays
+```
+
+![plot of chunk plot_weekdays](Folder/plot_weekdays.png) 
 
 We can see at the graph above that activity on the weekday has the greatest peak from all steps intervals. But, we can see too that weekends activities has more peaks over a hundred than weekday. This could be due to the fact that activities on weekdays mostly follow a work related routine, where we find some more intensity activity in little a free time that the employ can made some sport. In the other hand, at weekend we can see better distribution of effort along the time.
