@@ -50,10 +50,11 @@ rdata$interval <- as.factor(rdata$interval)
 Now, let us check the data using str() method:
 
 str(rdata)
-## 'data.frame':    17568 obs. of  3 variables:
-##  $ steps   : num  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
-##  $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
+######## 'data.frame':    17568 obs. of  3 variables:
+########  $ steps   : num  NA NA NA NA NA NA NA NA NA NA ...
+########  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+########  $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
+
 ####What is mean total number of steps taken per day?
 
 Now here we ignore the missing values(a valid assumption).
@@ -63,19 +64,21 @@ We proceed by calculating the total steps per day.
 steps_per_day <- aggregate(steps ~ date, rdata, sum)
 colnames(steps_per_day) <- c("date","steps")
 head(steps_per_day)
-##         date steps
-## 1 2012-10-02   126
-## 2 2012-10-03 11352
-## 3 2012-10-04 12116
-## 4 2012-10-05 13294
-## 5 2012-10-06 15420
-## 6 2012-10-07 11015
+########         date steps
+######## 1 2012-10-02   126
+######## 2 2012-10-03 11352
+######## 3 2012-10-04 12116
+######## 4 2012-10-05 13294
+######## 5 2012-10-06 15420
+######## 6 2012-10-07 11015
 Now we make a histogram of the total number of steps taken per day, plotted with appropriate bin interval.
 ggplot(steps_per_day, aes(x = steps)) + 
        geom_histogram(fill = "green", binwidth = 1000) + 
         labs(title="Histogram of Steps Taken per Day", 
              x = "Number of Steps per Day", y = "Number of times in a day(Count)") + theme_bw() 
 plot of chunk histo
+
+
 
 Now we calculate the mean and median of the number of steps taken per day.
 steps_mean   <- mean(steps_per_day$steps, na.rm=TRUE)
@@ -89,8 +92,8 @@ We calculate the aggregation of steps by intervals of 5-minutes and convert the 
 steps_per_interval <- aggregate(rdata$steps, 
                                 by = list(interval = rdata$interval),
                                 FUN=mean, na.rm=TRUE)
-#convert to integers
-##this helps in plotting
+####convert to integers
+####this helps in plotting
 steps_per_interval$interval <- 
         as.integer(levels(steps_per_interval$interval)[steps_per_interval$interval])
 colnames(steps_per_interval) <- c("interval", "steps")
@@ -137,14 +140,14 @@ rdata_fill <- data.frame(
         date = rdata$date,  
         interval = rdata$interval)
 str(rdata_fill)
-## 'data.frame':    17568 obs. of  3 variables:
-##  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
-##  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
-##  $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
+######## 'data.frame':    17568 obs. of  3 variables:
+########  $ steps   : num  1.717 0.3396 0.1321 0.1509 0.0755 ...
+########  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+########  $ interval: Factor w/ 288 levels "0","5","10","15",..: 1 2 3 4 5 6 7 8 9 10 ...
 We check that are there any missing values remaining or not
 
 sum(is.na(rdata_fill$steps))
-## [1] 0
+######## [1] 0
 Zero output shows that there are NO MISSING VALUES.
 
 ####3. A histogram of the total number of steps taken each day
@@ -154,7 +157,7 @@ Now let us plot a histogram of the daily total number of steps taken, plotted wi
 fill_steps_per_day <- aggregate(steps ~ date, rdata_fill, sum)
 colnames(fill_steps_per_day) <- c("date","steps")
 
-##plotting the histogram
+####plotting the histogram
 ggplot(fill_steps_per_day, aes(x = steps)) + 
        geom_histogram(fill = "blue", binwidth = 1000) + 
         labs(title="Histogram of Steps Taken per Day", 
@@ -198,7 +201,7 @@ We do this comparison with the table with filled-in missing values.
 weekdays_steps <- function(data) {
     weekdays_steps <- aggregate(data$steps, by=list(interval = data$interval),
                           FUN=mean, na.rm=T)
-    # convert to integers for plotting
+    #### convert to integers for plotting
     weekdays_steps$interval <- 
             as.integer(levels(weekdays_steps$interval)[weekdays_steps$interval])
     colnames(weekdays_steps) <- c("interval", "steps")
